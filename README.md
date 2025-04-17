@@ -1,5 +1,7 @@
-Instructions
+Instructions:
+
 Prerequisites
+
 Python 3.7+
 
 Kafka & Zookeeper running locally or in Docker
