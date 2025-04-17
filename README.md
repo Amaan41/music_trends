@@ -4,10 +4,9 @@ Python 3.7+
 
 Kafka & Zookeeper running locally or in Docker
 
-🧪 Running Kafka Scripts
+#Running Kafka Scripts
 1. Start Zookeeper and Kafka
 
-# Example using Kafka locally installed
 zookeeper-server-start.sh config/zookeeper.properties
 kafka-server-start.sh config/server.properties
 
