@@ -11,7 +11,11 @@ Kafka & Zookeeper running locally or in Docker
 
 zookeeper-server-start.sh config/zookeeper.properties
 
-kafka-server-start.sh config/server.properties
+kafka-server-start.sh config/server.properties 
+
+OR
+
+kafka-server-start /opt/homebrew/etc/kafka/server.properties
 
 2. Create Kafka Topic (if needed)
 

@@ -1,37 +1,38 @@
+# kafka/producer.py
+
+import csv
 import json
-import random
 import time
-from datetime import datetime
 from kafka import KafkaProducer
-from faker import Faker
 
-fake = Faker()
-
-# Kafka config
-KAFKA_TOPIC = "song-plays"
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
-
-# Sample genres
-genres = ['pop', 'rock', 'hiphop', 'classical', 'jazz', 'electronic', 'country']
-
-# Producer setup
 producer = KafkaProducer(
-    bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-def generate_mock_play():
-    return {
-        "user_id": f"user_{random.randint(1, 50)}",
-        "song_id": f"song_{random.randint(1, 100)}",
-        "timestamp": datetime.utcnow().isoformat(),
-        "genre": random.choice(genres)
-    }
+topic_name = 'song-plays'
+file_path = '../data/spotify_history.csv'  # Adjust if running from another directory
 
-if __name__ == "__main__":
-    print(f"Producing messages to topic `{KAFKA_TOPIC}`...")
-    while True:
-        message = generate_mock_play()
-        producer.send(KAFKA_TOPIC, value=message)
-        print(f"Sent: {message}")
-        time.sleep(1)  # one play per second
+with open(file_path, mode='r', encoding='utf-8') as csvfile:
+    reader = csv.DictReader(csvfile)
+    print(f"Producing messages to topic `{topic_name}`...")
+
+    for row in reader:
+        message = {
+            "ts": row["ts"],
+            "platform": row["platform"],
+            "ms_played": int(row["ms_played"]),
+            "track_name": row["track_name"],
+            "artist_name": row["artist_name"],
+            "album_name": row["album_name"],
+            "reason_start": row["reason_start"],
+            "reason_end": row["reason_end"],
+            "shuffle": row["shuffle"] == 'true',
+            "skipped": row["skipped"] == 'true'
+        }
+
+        producer.send(topic_name, message)
+        print("Sent:", message)
+        time.sleep(1)  # simulate streaming one record at a time
+
+producer.flush()
