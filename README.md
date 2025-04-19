@@ -11,6 +11,10 @@ Kafka & Zookeeper running locally or in Docker
 
 zookeeper-server-start.sh config/zookeeper.properties
 
+OR
+
+zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
+
 kafka-server-start.sh config/server.properties 
 
 OR
