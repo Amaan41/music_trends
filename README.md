@@ -27,8 +27,18 @@ kafka-topics.sh --create --topic music-logs --bootstrap-server localhost:9092 --
 
 3. Run Producer
 
-python kafka/producer.py
+python producer.py
 
-4. Run Consumer
+4. Run Stream Processing Script
 
-python kafka/consumer_test.py
+python stream/main_streaming_consumer.py
+
+5. Run Batch Processing Script
+
+python batch/batch_processing_main.py
+
+6. Gather the final report
+
+python batch/insights_report.py
+
+
